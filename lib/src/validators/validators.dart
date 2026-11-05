@@ -4,4 +4,5 @@ export 'cnpj_validator.dart';
 export 'cpf_validator.dart';
 export 'nup_validator.dart';
 export 'pis_pasep_validator.dart';
+export 'placa_veiculo_validator.dart';
 export 'renavam_validator.dart';
