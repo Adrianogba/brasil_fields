@@ -158,6 +158,7 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.removerSimboloMoeda` remove `R$` e o espaço seguinte, se houver.
 - `UtilBrasilFields.converterMoedaParaDouble` converte um valor monetário brasileiro em `double`; retorna `0` se a entrada não vazia não puder ser convertida.
 - `UtilBrasilFields.isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido` e `isPisPasepValido` retornam `bool`. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
+- `UtilBrasilFields.isChavePixValida` valida chaves Pix dos cinco tipos (CPF, CNPJ, e-mail, telefone e aleatória), e `obterTipoChavePix` retorna o `TipoChavePix` correspondente ou `null`. A chave é validada como foi cadastrada: CPF e CNPJ sem pontuação e celular com `+55`.
 
 Os métodos `obterCpf`, `obterCnpj`, `obterNUP` e `obterPisPasep` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
 
