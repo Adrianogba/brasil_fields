@@ -315,6 +315,17 @@ void main() {
   });
 
   group('Validadores públicos', () {
+    test('Chave Pix cobre valores válidos, inválidos e nulos', () {
+      expect(UtilBrasilFields.isChavePixValida('33461671002'), isTrue);
+      expect(UtilBrasilFields.isChavePixValida('33461671001'), isFalse);
+      expect(UtilBrasilFields.isChavePixValida(null), isFalse);
+      expect(
+        UtilBrasilFields.obterTipoChavePix('+5511999998877'),
+        TipoChavePix.telefone,
+      );
+      expect(UtilBrasilFields.obterTipoChavePix('invalida'), isNull);
+    });
+
     test('CNH cobre valores válidos, inválidos e nulos', () {
       expect(UtilBrasilFields.isCNHValido('18718682003'), isTrue);
       expect(UtilBrasilFields.isCNHValido('18718682004'), isFalse);

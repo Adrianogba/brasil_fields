@@ -117,6 +117,14 @@ class UtilBrasilFields {
     return telefone.substring(1, 3);
   }
 
+  /// Retorna `true` se a chave Pix for válida.
+  static bool isChavePixValida(String? chave) =>
+      ChavePixValidator.isValid(chave);
+
+  /// Retorna o tipo da chave Pix, ou `null` se ela for inválida.
+  static TipoChavePix? obterTipoChavePix(String? chave) =>
+      ChavePixValidator.obterTipo(chave);
+
   /// Retorna `true` se o número de registro da CNH for válido.
   static bool isCNHValido(String? cnh) => CNHValidator.isValid(cnh);
 
