@@ -134,6 +134,10 @@ class UtilBrasilFields {
   /// Retorna `true` se o NUP for válido.
   static bool isNUPValido(String? nup) => NUPValidator.isValid(nup);
 
+  /// Retorna `true` se o título de eleitor for válido.
+  static bool isTituloEleitorValido(String? titulo) =>
+      TituloEleitorValidator.isValid(titulo);
+
   /// Retorna `true` se o PIS/PASEP (NIT/NIS) for válido.
   static bool isPisPasepValido(String? pis) => PisPasepValidator.isValid(pis);
 
@@ -164,6 +168,12 @@ class UtilBrasilFields {
               random: random,
             )
           : CNPJValidator.generate(useFormat: useFormat, random: random);
+
+  /// Gera um título de eleitor válido aleatório.
+  ///
+  /// Com [useFormat] igual a `true`, retorna `XXXX XXXX XXXX`.
+  static String gerarTituloEleitor({bool useFormat = false, Random? random}) =>
+      TituloEleitorValidator.generate(useFormat: useFormat, random: random);
 
   /// Gera um PIS/PASEP (NIT/NIS) válido aleatório.
   ///
@@ -220,6 +230,19 @@ class UtilBrasilFields {
     }
     return CnpjAlfanumericoValidator.strip(cnpj).substring(12);
   }
+
+  /// Formata um título de eleitor válido como `XXXX XXXX XXXX`.
+  static String obterTituloEleitor(String titulo) {
+    if (!isTituloEleitorValido(titulo)) {
+      throw ArgumentError.value(
+          titulo, 'titulo', 'Título de eleitor inválido!');
+    }
+    return TituloEleitorValidator.format(titulo);
+  }
+
+  /// Retorna a sigla da UF do título de eleitor, ou `ZZ` para o exterior.
+  static String obterTituloEleitorUf(String titulo) =>
+      TituloEleitorValidator.obterUf(titulo);
 
   /// Formata um PIS/PASEP válido como `XXX.XXXXX.XX-X`.
   static String obterPisPasep(String pis) {

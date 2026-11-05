@@ -315,6 +315,12 @@ void main() {
   });
 
   group('Validadores públicos', () {
+    test('Título de eleitor cobre valores válidos, inválidos e nulos', () {
+      expect(UtilBrasilFields.isTituloEleitorValido('472054680167'), isTrue);
+      expect(UtilBrasilFields.isTituloEleitorValido('472054680168'), isFalse);
+      expect(UtilBrasilFields.isTituloEleitorValido(null), isFalse);
+    });
+
     test('CNH cobre valores válidos, inválidos e nulos', () {
       expect(UtilBrasilFields.isCNHValido('18718682003'), isTrue);
       expect(UtilBrasilFields.isCNHValido('18718682004'), isFalse);
@@ -361,6 +367,15 @@ void main() {
       expect(UtilBrasilFields.isPisPasepValido('120.12345.67-3'), isFalse);
       expect(UtilBrasilFields.isPisPasepValido(null), isFalse);
     });
+  });
+
+  test('Obter título de eleitor', () {
+    expect(
+        UtilBrasilFields.obterTituloEleitor('472054680167'), '4720 5468 0167');
+    expect(UtilBrasilFields.obterTituloEleitorUf('4720 5468 0167'), 'SP');
+    expect(() {
+      UtilBrasilFields.obterTituloEleitor('472054680168');
+    }, throwsArgumentError);
   });
 
   group('Obter Real', () {
@@ -505,6 +520,18 @@ void main() {
   });
 
   group('Geradores públicos', () {
+    test('título de eleitor usa parâmetros nomeados e defaults crus', () {
+      final padrao = UtilBrasilFields.gerarTituloEleitor();
+      final formatado = UtilBrasilFields.gerarTituloEleitor(
+        useFormat: true,
+        random: RecordingRandom(<int>[0, 1, 2, 3, 4, 5, 6, 7, 4]),
+      );
+
+      expect(padrao, matches(RegExp(r'^\d{12}$')));
+      expect(UtilBrasilFields.isTituloEleitorValido(padrao), isTrue);
+      expect(formatado, '0123 4567 0590');
+    });
+
     test('CNH aceita Random injetado e retorna apenas dígitos', () {
       final defaultCnh = UtilBrasilFields.gerarCNH();
       final generated = UtilBrasilFields.gerarCNH(
