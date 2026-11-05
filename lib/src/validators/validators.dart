@@ -4,3 +4,4 @@ export 'cnpj_validator.dart';
 export 'cpf_validator.dart';
 export 'nup_validator.dart';
 export 'pis_pasep_validator.dart';
+export 'titulo_eleitor_validator.dart';
