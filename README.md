@@ -158,6 +158,8 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.removerSimboloMoeda` remove `R$` e o espaço seguinte, se houver.
 - `UtilBrasilFields.converterMoedaParaDouble` converte um valor monetário brasileiro em `double`; retorna `0` se a entrada não vazia não puder ser convertida.
 - `UtilBrasilFields.isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido` e `isPisPasepValido` retornam `bool`. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
+- `UtilBrasilFields.isBrCodePixValido` valida o BR Code do Pix, o texto do QR Code também usado no "Pix Copia e Cola": estrutura, CRC16 e identificador do Pix. `obterBrCodePixValor` retorna o valor ou `null` quando o pagador escolhe.
+- `BrCodePixValidator.obterChave`, `obterUrl`, `obterNomeRecebedor`, `obterCidade` e `obterTxid` leem os demais campos. QR Code estático traz a chave; o dinâmico traz uma URL no lugar dela.
 
 Os métodos `obterCpf`, `obterCnpj`, `obterNUP` e `obterPisPasep` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
 
