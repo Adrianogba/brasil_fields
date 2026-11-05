@@ -906,6 +906,7 @@ class _FormatterDemo {
       return 'PlacaVeiculoInputFormatter';
     }
     if (value is RealInputFormatter) return 'RealInputFormatter';
+    if (value is RenavamInputFormatter) return 'RenavamInputFormatter';
     if (value is TelefoneInputFormatter) return 'TelefoneInputFormatter';
     if (value is TelefoneFixoInputFormatter) {
       return 'TelefoneFixoInputFormatter';
@@ -959,6 +960,8 @@ List<_FormatterDemo> _createFormatterDemos() => [
           '0601064-21.2022.6.00.0000', NUPInputFormatter()),
       _demo('cnh', 'Documentos e identificadores', 'CNH', '18718682003',
           CNHInputFormatter()),
+      _demo('renavam', 'Documentos e identificadores', 'Renavam',
+          '4755656770-2', RenavamInputFormatter()),
       _demo('cns', 'Documentos e identificadores', 'CNS', '000 1111 2222 3333',
           CNSInputFormatter()),
       _demo('telefone-fixo', 'Novidades recentes', 'Telefone fixo',

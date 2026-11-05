@@ -182,6 +182,34 @@ void main() {
     expect(editable.controller.text, '18718682003');
   });
 
+  testWidgets('shows and formats the Renavam formatter', (tester) async {
+    await tester.pumpWidget(const BrasilFieldsApp());
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const Key('formatter-search')),
+      'Renavam',
+    );
+    await tester.pumpAndSettle();
+    await tester.drag(
+      find.byKey(const PageStorageKey('formatters-page')),
+      const Offset(0, -500),
+    );
+    await tester.pumpAndSettle();
+
+    final field = find.byKey(const Key('formatter-renavam'));
+    expect(field, findsOneWidget);
+    expect(find.text('RenavamInputFormatter'), findsOneWidget);
+
+    await tester.enterText(field, '47556567702');
+    await tester.pump();
+
+    final editable = tester.widget<EditableText>(
+      find.descendant(of: field, matching: find.byType(EditableText)),
+    );
+    expect(editable.controller.text, '4755656770-2');
+  });
+
   testWidgets('narrow layout renders without overflow', (tester) async {
     tester.view.physicalSize = const Size(320, 568);
     tester.view.devicePixelRatio = 1;

@@ -69,6 +69,7 @@ final cnpjField = TextFormField(
 | PIS/PASEP (NIS/NIT) | PisPasepInputFormatter()     | 120.12345.67-2                               |
 | Placa            | PlacaVeiculoInputFormatter()    | AAA-1234                                     |
 | Real             | RealInputFormatter()            | 20.550                                       |
+| Renavam          | RenavamInputFormatter()         | 4755656770-2                                 |
 | Telefone fixo    | TelefoneFixoInputFormatter()    | (99) 9999-9999                               |
 | Celular          | CelularInputFormatter()         | (99) 99999-9999                              |
 | Telefone ou celular | TelefoneOuCelularInputFormatter() | Máscara conforme a quantidade de dígitos |
@@ -137,6 +138,8 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.gerarCNPJ(isAlphanumeric: true, useFormat: true)` (CNPJ alfanumérico formatado)
 - `UtilBrasilFields.gerarPisPasep()` (XXXXXXXXXXX)
 - `UtilBrasilFields.gerarPisPasep(useFormat: true)` (XXX.XXXXX.XX-X)
+- `UtilBrasilFields.gerarRenavam()` (XXXXXXXXXXX)
+- `UtilBrasilFields.gerarRenavam(useFormat: true)` (XXXXXXXXXX-X)
 - `UtilBrasilFields.obterCpf('48620265083')` (486.202.650-83)
 - `UtilBrasilFields.obterCnpj('77343168000124')` (77.343.168/0001-24)
 - `UtilBrasilFields.obterCnpj('E2X05ZR982XN04')` (E2.X05.ZR9/82XN-04)
@@ -145,6 +148,7 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.obterCep('11222333', ponto: false)` (11222-333)
 - `UtilBrasilFields.obterNUP('06010642120226000000')` (0601064-21.2022.6.00.0000)
 - `UtilBrasilFields.obterPisPasep('12012345672')` (120.12345.67-2)
+- `UtilBrasilFields.obterRenavam('47556567702')` (4755656770-2)
 - `UtilBrasilFields.obterTelefone('00999998877')` ((00) 99999-8877)
 - `UtilBrasilFields.obterTelefone('(00) 99999-8877', mascara: false)` (00999998877)
 - `UtilBrasilFields.obterTelefone('999998877', ddd: false)` (99999-8877)
@@ -157,9 +161,10 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.removeCaracteres` mantém apenas letras ASCII e dígitos.
 - `UtilBrasilFields.removerSimboloMoeda` remove `R$` e o espaço seguinte, se houver.
 - `UtilBrasilFields.converterMoedaParaDouble` converte um valor monetário brasileiro em `double`; retorna `0` se a entrada não vazia não puder ser convertida.
-- `UtilBrasilFields.isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido` e `isPisPasepValido` retornam `bool`. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
+- `UtilBrasilFields.isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido`, `isPisPasepValido` e `isRenavamValido` retornam `bool`.
+- `UtilBrasilFields.isPlacaValida` aceita placas no padrão antigo (`ABC-1234`) e no Mercosul (`ABC1D23`). Para saber qual dos dois, use `PlacaVeiculoValidator.isMercosul`. A validação é só de formato: placa não tem dígito verificador. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
 
-Os métodos `obterCpf`, `obterCnpj`, `obterNUP` e `obterPisPasep` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
+Os métodos `obterCpf`, `obterCnpj`, `obterNUP`, `obterPisPasep` e `obterRenavam` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
 
 ### TextEditingController
 
