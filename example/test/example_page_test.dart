@@ -182,6 +182,41 @@ void main() {
     expect(editable.controller.text, '18718682003');
   });
 
+  testWidgets('shows and formats the NF-e access key formatter',
+      (tester) async {
+    await tester.pumpWidget(const BrasilFieldsApp());
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const Key('formatter-search')),
+      'Chave',
+    );
+    await tester.pumpAndSettle();
+    await tester.drag(
+      find.byKey(const PageStorageKey('formatters-page')),
+      const Offset(0, -500),
+    );
+    await tester.pumpAndSettle();
+
+    final field = find.byKey(const Key('formatter-chave-nfe'));
+    expect(field, findsOneWidget);
+    expect(find.text('ChaveNFeInputFormatter'), findsOneWidget);
+
+    await tester.enterText(
+      field,
+      '35150300822602000124550010009923461099234656',
+    );
+    await tester.pump();
+
+    final editable = tester.widget<EditableText>(
+      find.descendant(of: field, matching: find.byType(EditableText)),
+    );
+    expect(
+      editable.controller.text,
+      '3515 0300 8226 0200 0124 5500 1000 9923 4610 9923 4656',
+    );
+  });
+
   testWidgets('narrow layout renders without overflow', (tester) async {
     tester.view.physicalSize = const Size(320, 568);
     tester.view.devicePixelRatio = 1;

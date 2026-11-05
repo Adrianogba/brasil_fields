@@ -887,6 +887,7 @@ class _FormatterDemo {
       return 'CnpjAlfanumericoInputFormatter';
     }
     if (value is CnpjInputFormatter) return 'CnpjInputFormatter';
+    if (value is ChaveNFeInputFormatter) return 'ChaveNFeInputFormatter';
     if (value is CNHInputFormatter) return 'CNHInputFormatter';
     if (value is CNSInputFormatter) return 'CNSInputFormatter';
     if (value is CpfOuCnpjAlfanumericoFormatter) {
@@ -959,6 +960,12 @@ List<_FormatterDemo> _createFormatterDemos() => [
           '0601064-21.2022.6.00.0000', NUPInputFormatter()),
       _demo('cnh', 'Documentos e identificadores', 'CNH', '18718682003',
           CNHInputFormatter()),
+      _demo(
+          'chave-nfe',
+          'Documentos e identificadores',
+          'Chave de acesso NF-e',
+          '3515 0300 8226 0200 0124 5500 1000 9923 4610 9923 4656',
+          ChaveNFeInputFormatter()),
       _demo('cns', 'Documentos e identificadores', 'CNS', '000 1111 2222 3333',
           CNSInputFormatter()),
       _demo('telefone-fixo', 'Novidades recentes', 'Telefone fixo',

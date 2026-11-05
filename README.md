@@ -56,6 +56,7 @@ final cnpjField = TextFormField(
 | CPF ou CNPJ      | CpfOuCnpjFormatter()            | Máscara numérica conforme o tamanho          |
 | CPF ou CNPJ alfanumérico | CpfOuCnpjAlfanumericoFormatter() | Máscara conforme o tamanho         |
 | CEST             | CESTInputFormatter()            | 12.345.67                                    |
+| Chave NF-e       | ChaveNFeInputFormatter()        | 3515 0300 8226 ... 4656 (11 grupos de 4)     |
 | CNH              | CNHInputFormatter()             | 12345678901 (11 dígitos, sem máscara)        |
 | CNS              | CNSInputFormatter()             | 111 2222 3333 4444                           |
 | Data             | DataInputFormatter()            | 01/01/1900                                   |
@@ -141,6 +142,8 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.obterCnpj('77343168000124')` (77.343.168/0001-24)
 - `UtilBrasilFields.obterCnpj('E2X05ZR982XN04')` (E2.X05.ZR9/82XN-04)
 - `UtilBrasilFields.obterCnpjInscricao`, `obterCnpjOrdem` e `obterCnpjDiv` extraem as partes de um CNPJ válido.
+- `UtilBrasilFields.obterChaveNFe('35150300822602000124550010009923461099234656')` (3515 0300 8226 0200 0124 5500 1000 9923 4610 9923 4656)
+- `UtilBrasilFields.obterChaveNFeUf`, `obterChaveNFeAnoMes`, `obterChaveNFeCnpj`, `obterChaveNFeModelo`, `obterChaveNFeSerie` e `obterChaveNFeNumero` extraem os campos de uma chave de acesso válida. O modelo distingue NF-e (`55`), NFC-e (`65`), CT-e (`57`) e MDF-e (`58`).
 - `UtilBrasilFields.obterCep('11222333')` (11.222-333)
 - `UtilBrasilFields.obterCep('11222333', ponto: false)` (11222-333)
 - `UtilBrasilFields.obterNUP('06010642120226000000')` (0601064-21.2022.6.00.0000)
@@ -157,9 +160,9 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.removeCaracteres` mantém apenas letras ASCII e dígitos.
 - `UtilBrasilFields.removerSimboloMoeda` remove `R$` e o espaço seguinte, se houver.
 - `UtilBrasilFields.converterMoedaParaDouble` converte um valor monetário brasileiro em `double`; retorna `0` se a entrada não vazia não puder ser convertida.
-- `UtilBrasilFields.isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido` e `isPisPasepValido` retornam `bool`. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
+- `UtilBrasilFields.isChaveNFeValida`, `isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido` e `isPisPasepValido` retornam `bool`. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
 
-Os métodos `obterCpf`, `obterCnpj`, `obterNUP` e `obterPisPasep` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
+Os métodos `obterCpf`, `obterCnpj`, `obterNUP`, `obterPisPasep` e os `obterChaveNFe*` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
 
 ### TextEditingController
 
