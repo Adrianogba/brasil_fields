@@ -134,6 +134,14 @@ class UtilBrasilFields {
   /// Retorna `true` se o NUP for válido.
   static bool isNUPValido(String? nup) => NUPValidator.isValid(nup);
 
+  /// Retorna `true` se o Renavam for válido.
+  static bool isRenavamValido(String? renavam) =>
+      RenavamValidator.isValid(renavam);
+
+  /// Retorna `true` se a placa estiver no padrão antigo ou no Mercosul.
+  static bool isPlacaValida(String? placa) =>
+      PlacaVeiculoValidator.isValid(placa);
+
   /// Retorna `true` se o PIS/PASEP (NIT/NIS) for válido.
   static bool isPisPasepValido(String? pis) => PisPasepValidator.isValid(pis);
 
@@ -164,6 +172,12 @@ class UtilBrasilFields {
               random: random,
             )
           : CNPJValidator.generate(useFormat: useFormat, random: random);
+
+  /// Gera um Renavam válido aleatório.
+  ///
+  /// Com [useFormat] igual a `true`, retorna `XXXXXXXXXX-X`.
+  static String gerarRenavam({bool useFormat = false, Random? random}) =>
+      RenavamValidator.generate(useFormat: useFormat, random: random);
 
   /// Gera um PIS/PASEP (NIT/NIS) válido aleatório.
   ///
@@ -219,6 +233,14 @@ class UtilBrasilFields {
       throw ArgumentError.value(cnpj, 'cnpj', 'CNPJ inválido!');
     }
     return CnpjAlfanumericoValidator.strip(cnpj).substring(12);
+  }
+
+  /// Formata um Renavam válido como `XXXXXXXXXX-X`.
+  static String obterRenavam(String renavam) {
+    if (!isRenavamValido(renavam)) {
+      throw ArgumentError.value(renavam, 'renavam', 'Renavam inválido!');
+    }
+    return RenavamValidator.format(renavam);
   }
 
   /// Formata um PIS/PASEP válido como `XXX.XXXXX.XX-X`.

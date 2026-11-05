@@ -315,6 +315,19 @@ void main() {
   });
 
   group('Validadores públicos', () {
+    test('Renavam cobre valores válidos, inválidos e nulos', () {
+      expect(UtilBrasilFields.isRenavamValido('47556567702'), isTrue);
+      expect(UtilBrasilFields.isRenavamValido('47556567703'), isFalse);
+      expect(UtilBrasilFields.isRenavamValido(null), isFalse);
+    });
+
+    test('Placa aceita os dois padrões', () {
+      expect(UtilBrasilFields.isPlacaValida('ABC-1234'), isTrue);
+      expect(UtilBrasilFields.isPlacaValida('ABC1D23'), isTrue);
+      expect(UtilBrasilFields.isPlacaValida('ABC12D3'), isFalse);
+      expect(UtilBrasilFields.isPlacaValida(null), isFalse);
+    });
+
     test('CNH cobre valores válidos, inválidos e nulos', () {
       expect(UtilBrasilFields.isCNHValido('18718682003'), isTrue);
       expect(UtilBrasilFields.isCNHValido('18718682004'), isFalse);
@@ -361,6 +374,13 @@ void main() {
       expect(UtilBrasilFields.isPisPasepValido('120.12345.67-3'), isFalse);
       expect(UtilBrasilFields.isPisPasepValido(null), isFalse);
     });
+  });
+
+  test('Obter Renavam', () {
+    expect(UtilBrasilFields.obterRenavam('47556567702'), '4755656770-2');
+    expect(() {
+      UtilBrasilFields.obterRenavam('47556567703');
+    }, throwsArgumentError);
   });
 
   group('Obter Real', () {
@@ -505,6 +525,18 @@ void main() {
   });
 
   group('Geradores públicos', () {
+    test('Renavam usa parâmetros nomeados e defaults crus', () {
+      final padrao = UtilBrasilFields.gerarRenavam();
+      final formatado = UtilBrasilFields.gerarRenavam(
+        useFormat: true,
+        random: RecordingRandom(<int>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
+      );
+
+      expect(padrao, matches(RegExp(r'^\d{11}$')));
+      expect(UtilBrasilFields.isRenavamValido(padrao), isTrue);
+      expect(formatado, '0123456789-7');
+    });
+
     test('CNH aceita Random injetado e retorna apenas dígitos', () {
       final defaultCnh = UtilBrasilFields.gerarCNH();
       final generated = UtilBrasilFields.gerarCNH(
