@@ -117,6 +117,10 @@ class UtilBrasilFields {
     return telefone.substring(1, 3);
   }
 
+  /// Retorna `true` se a chave de acesso for válida.
+  static bool isChaveNFeValida(String? chave) =>
+      ChaveNFeValidator.isValid(chave);
+
   /// Retorna `true` se o número de registro da CNH for válido.
   static bool isCNHValido(String? cnh) => CNHValidator.isValid(cnh);
 
@@ -219,6 +223,14 @@ class UtilBrasilFields {
       throw ArgumentError.value(cnpj, 'cnpj', 'CNPJ inválido!');
     }
     return CnpjAlfanumericoValidator.strip(cnpj).substring(12);
+  }
+
+  /// Formata uma chave de acesso válida em 11 grupos de 4 dígitos.
+  static String obterChaveNFe(String chave) {
+    if (!isChaveNFeValida(chave)) {
+      throw ArgumentError.value(chave, 'chave', 'Chave de acesso inválida!');
+    }
+    return ChaveNFeValidator.format(chave);
   }
 
   /// Formata um PIS/PASEP válido como `XXX.XXXXX.XX-X`.

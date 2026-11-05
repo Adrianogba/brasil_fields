@@ -315,6 +315,22 @@ void main() {
   });
 
   group('Validadores públicos', () {
+    test('Chave de acesso cobre valores válidos, inválidos e nulos', () {
+      expect(
+        UtilBrasilFields.isChaveNFeValida(
+          '35150300822602000124550010009923461099234656',
+        ),
+        isTrue,
+      );
+      expect(
+        UtilBrasilFields.isChaveNFeValida(
+          '35150300822602000124550010009923461099234650',
+        ),
+        isFalse,
+      );
+      expect(UtilBrasilFields.isChaveNFeValida(null), isFalse);
+    });
+
     test('CNH cobre valores válidos, inválidos e nulos', () {
       expect(UtilBrasilFields.isCNHValido('18718682003'), isTrue);
       expect(UtilBrasilFields.isCNHValido('18718682004'), isFalse);
@@ -361,6 +377,19 @@ void main() {
       expect(UtilBrasilFields.isPisPasepValido('120.12345.67-3'), isFalse);
       expect(UtilBrasilFields.isPisPasepValido(null), isFalse);
     });
+  });
+
+  test('Obter chave de acesso', () {
+    const semMascara = '35150300822602000124550010009923461099234656';
+    const comMascara = '3515 0300 8226 0200 0124 5500 1000 9923 4610 9923 4656';
+
+    expect(UtilBrasilFields.obterChaveNFe(semMascara), comMascara);
+    expect(UtilBrasilFields.obterChaveNFe(comMascara), comMascara);
+    expect(() {
+      UtilBrasilFields.obterChaveNFe(
+        '35150300822602000124550010009923461099234650',
+      );
+    }, throwsArgumentError);
   });
 
   group('Obter Real', () {
