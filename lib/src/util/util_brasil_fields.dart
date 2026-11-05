@@ -117,6 +117,10 @@ class UtilBrasilFields {
     return telefone.substring(1, 3);
   }
 
+  /// Retorna `true` se o boleto bancário for válido, seja a linha digitável
+  /// (47 dígitos) ou o código de barras (44 dígitos).
+  static bool isBoletoValido(String? codigo) => BoletoValidator.isValid(codigo);
+
   /// Retorna `true` se o número de registro da CNH for válido.
   static bool isCNHValido(String? cnh) => CNHValidator.isValid(cnh);
 
@@ -219,6 +223,33 @@ class UtilBrasilFields {
       throw ArgumentError.value(cnpj, 'cnpj', 'CNPJ inválido!');
     }
     return CnpjAlfanumericoValidator.strip(cnpj).substring(12);
+  }
+
+  /// Retorna a linha digitável formatada a partir da linha digitável ou do
+  /// código de barras.
+  static String obterBoleto(String codigo) =>
+      BoletoValidator.format(BoletoValidator.paraLinhaDigitavel(
+        _codigoBarrasDoBoleto(codigo),
+      ));
+
+  /// Retorna o código do banco emissor do boleto.
+  static String obterBoletoBanco(String codigo) =>
+      _codigoBarrasDoBoleto(codigo).substring(0, 3);
+
+  /// Retorna o valor do boleto em reais. `0` quando o boleto não tem valor
+  /// definido.
+  static double obterBoletoValor(String codigo) =>
+      int.parse(_codigoBarrasDoBoleto(codigo).substring(9, 19)) / 100;
+
+  static String _codigoBarrasDoBoleto(String codigo) {
+    if (!isBoletoValido(codigo)) {
+      throw ArgumentError.value(codigo, 'codigo', 'Boleto inválido!');
+    }
+
+    final digitos = BoletoValidator.strip(codigo);
+    return digitos.length == 47
+        ? BoletoValidator.paraCodigoBarras(digitos)
+        : digitos;
   }
 
   /// Formata um PIS/PASEP válido como `XXX.XXXXX.XX-X`.

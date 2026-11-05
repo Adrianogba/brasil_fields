@@ -315,6 +315,28 @@ void main() {
   });
 
   group('Validadores públicos', () {
+    test('Boleto aceita linha digitável e código de barras', () {
+      expect(
+        UtilBrasilFields.isBoletoValido(
+          '00190500954014481606906809350314337370000000100',
+        ),
+        isTrue,
+      );
+      expect(
+        UtilBrasilFields.isBoletoValido(
+          '00193373700000001000500940144816060680935031',
+        ),
+        isTrue,
+      );
+      expect(
+        UtilBrasilFields.isBoletoValido(
+          '00190500954014481606906809350314437370000000100',
+        ),
+        isFalse,
+      );
+      expect(UtilBrasilFields.isBoletoValido(null), isFalse);
+    });
+
     test('CNH cobre valores válidos, inválidos e nulos', () {
       expect(UtilBrasilFields.isCNHValido('18718682003'), isTrue);
       expect(UtilBrasilFields.isCNHValido('18718682004'), isFalse);
@@ -360,6 +382,39 @@ void main() {
       expect(UtilBrasilFields.isPisPasepValido('120.12345.67-2'), isTrue);
       expect(UtilBrasilFields.isPisPasepValido('120.12345.67-3'), isFalse);
       expect(UtilBrasilFields.isPisPasepValido(null), isFalse);
+    });
+  });
+
+  group('Obter boleto', () {
+    const linha = '00190500954014481606906809350314337370000000100';
+    const codigoBarras = '00193373700000001000500940144816060680935031';
+    const formatada = '00190.50095 40144.816069 06809.350314 3 37370000000100';
+
+    test('formata a partir dos dois formatos', () {
+      expect(UtilBrasilFields.obterBoleto(linha), formatada);
+      expect(UtilBrasilFields.obterBoleto(codigoBarras), formatada);
+      expect(UtilBrasilFields.obterBoleto(formatada), formatada);
+    });
+
+    test('extrai banco e valor', () {
+      expect(UtilBrasilFields.obterBoletoBanco(linha), '001');
+      expect(UtilBrasilFields.obterBoletoBanco(codigoBarras), '001');
+      expect(UtilBrasilFields.obterBoletoValor(linha), 1.0);
+      expect(
+        UtilBrasilFields.obterBoletoValor(
+          '23791999900000001053381260000000000300000000',
+        ),
+        1.05,
+      );
+    });
+
+    test('recusa boleto inválido', () {
+      expect(() {
+        UtilBrasilFields.obterBoleto('${linha}0');
+      }, throwsArgumentError);
+      expect(() {
+        UtilBrasilFields.obterBoletoValor(linha.substring(1));
+      }, throwsArgumentError);
     });
   });
 

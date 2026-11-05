@@ -12,6 +12,10 @@ void main() {
   });
 
   test('public entrypoint exposes every validator', () {
+    expect(
+      BoletoValidator.isValid('00193373700000001000500940144816060680935031'),
+      isTrue,
+    );
     expect(CNHValidator.isValid('18718682003'), isTrue);
     expect(CPFValidator.isValid('334.616.710-02'), isTrue);
     expect(CNPJValidator.isValid('12.175.094/0001-19'), isTrue);
