@@ -47,6 +47,7 @@ final cnpjField = TextFormField(
 | Padrão           | Formatador                      | Formato                                      |
 |:-----------------|:--------------------------------|:---------------------------------------------|
 | Altura           | AlturaInputFormatter()          | 2,22                                         |
+| Boleto           | BoletoInputFormatter()          | 00190.50095 40144.816069 06809.350314 3 37370000000100 |
 | Cartão           | CartaoBancarioInputFormatter()  | 1111 2222 3333 4444                          |
 | Centavos         | CentavosInputFormatter()        | 71,94                                        |
 | CEP              | CepInputFormatter()             | 99.999-999                                   |
@@ -145,6 +146,8 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.obterCep('11222333', ponto: false)` (11222-333)
 - `UtilBrasilFields.obterNUP('06010642120226000000')` (0601064-21.2022.6.00.0000)
 - `UtilBrasilFields.obterPisPasep('12012345672')` (120.12345.67-2)
+- `UtilBrasilFields.obterBoleto('00193373700000001000500940144816060680935031')` (00190.50095 40144.816069 06809.350314 3 37370000000100). Aceita a linha digitável ou o código de barras.
+- `UtilBrasilFields.obterBoletoBanco` e `obterBoletoValor` extraem o código do banco e o valor em reais de um boleto válido.
 - `UtilBrasilFields.obterTelefone('00999998877')` ((00) 99999-8877)
 - `UtilBrasilFields.obterTelefone('(00) 99999-8877', mascara: false)` (00999998877)
 - `UtilBrasilFields.obterTelefone('999998877', ddd: false)` (99999-8877)
@@ -157,9 +160,10 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.removeCaracteres` mantém apenas letras ASCII e dígitos.
 - `UtilBrasilFields.removerSimboloMoeda` remove `R$` e o espaço seguinte, se houver.
 - `UtilBrasilFields.converterMoedaParaDouble` converte um valor monetário brasileiro em `double`; retorna `0` se a entrada não vazia não puder ser convertida.
-- `UtilBrasilFields.isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido` e `isPisPasepValido` retornam `bool`. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
+- `UtilBrasilFields.isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido`, `isPisPasepValido` e `isBoletoValido` retornam `bool`. `isBoletoValido` aceita linha digitável (47 dígitos) e código de barras (44); boletos de arrecadação, que começam com 8, não são cobertos.
+- `BoletoValidator.paraCodigoBarras` e `paraLinhaDigitavel` convertem entre os dois formatos. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
 
-Os métodos `obterCpf`, `obterCnpj`, `obterNUP` e `obterPisPasep` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
+Os métodos `obterCpf`, `obterCnpj`, `obterNUP`, `obterPisPasep` e os `obterBoleto*` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
 
 ### TextEditingController
 

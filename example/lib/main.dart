@@ -874,6 +874,7 @@ class _FormatterDemo {
   String get formatterName {
     final value = formatter;
     if (value is AlturaInputFormatter) return 'AlturaInputFormatter';
+    if (value is BoletoInputFormatter) return 'BoletoInputFormatter';
     if (value is CartaoBancarioInputFormatter) {
       return 'CartaoBancarioInputFormatter';
     }
@@ -998,6 +999,8 @@ List<_FormatterDemo> _createFormatterDemos() => [
       _demo('temperatura', 'Valores e medidas', 'Temperatura', '20,5',
           TemperaturaInputFormatter()),
       _demo('iof', 'Valores e medidas', 'IOF', '1,234567', IOFInputFormatter()),
+      _demo('boleto', 'Códigos comerciais e bancários', 'Boleto bancário',
+          'Linha digitável com 47 dígitos', BoletoInputFormatter()),
       _demo('cartao', 'Códigos comerciais e bancários', 'Cartão bancário',
           '1111 2222 3333 4444', CartaoBancarioInputFormatter()),
       _demo('validade-cartao', 'Códigos comerciais e bancários',
