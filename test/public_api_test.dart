@@ -12,6 +12,15 @@ void main() {
   });
 
   test('public entrypoint exposes every validator', () {
+    expect(
+      BrCodePixValidator.isValid(
+        '00020126580014br.gov.bcb.pix'
+        '0136123e4567-e12b-12d1-a456-426655440000'
+        '5204000053039865802BR5913Fulano de Tal6008BRASILIA'
+        '62070503***63041D3D',
+      ),
+      isTrue,
+    );
     expect(CNHValidator.isValid('18718682003'), isTrue);
     expect(CPFValidator.isValid('334.616.710-02'), isTrue);
     expect(CNPJValidator.isValid('12.175.094/0001-19'), isTrue);

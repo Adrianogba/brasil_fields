@@ -117,6 +117,17 @@ class UtilBrasilFields {
     return telefone.substring(1, 3);
   }
 
+  /// Retorna `true` se o BR Code do Pix (QR Code ou "Pix Copia e Cola")
+  /// for válido.
+  static bool isBrCodePixValido(String? brCode) =>
+      BrCodePixValidator.isValid(brCode);
+
+  /// Retorna o valor do BR Code do Pix, ou `null` quando o pagador escolhe.
+  ///
+  /// Lança [ArgumentError] se o BR Code for inválido.
+  static double? obterBrCodePixValor(String brCode) =>
+      BrCodePixValidator.obterValor(brCode);
+
   /// Retorna `true` se o número de registro da CNH for válido.
   static bool isCNHValido(String? cnh) => CNHValidator.isValid(cnh);
 

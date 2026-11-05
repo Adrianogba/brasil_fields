@@ -315,6 +315,18 @@ void main() {
   });
 
   group('Validadores públicos', () {
+    test('BR Code do Pix cobre valores válidos, inválidos e nulos', () {
+      const brCode = '00020126580014br.gov.bcb.pix'
+          '0136123e4567-e12b-12d1-a456-426655440000'
+          '5204000053039865802BR5913Fulano de Tal6008BRASILIA'
+          '62070503***63041D3D';
+
+      expect(UtilBrasilFields.isBrCodePixValido(brCode), isTrue);
+      expect(UtilBrasilFields.isBrCodePixValido('${brCode}0'), isFalse);
+      expect(UtilBrasilFields.isBrCodePixValido(null), isFalse);
+      expect(UtilBrasilFields.obterBrCodePixValor(brCode), isNull);
+    });
+
     test('CNH cobre valores válidos, inválidos e nulos', () {
       expect(UtilBrasilFields.isCNHValido('18718682003'), isTrue);
       expect(UtilBrasilFields.isCNHValido('18718682004'), isFalse);
