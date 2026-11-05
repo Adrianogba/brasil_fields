@@ -73,4 +73,53 @@ class BrCodePixValidator {
   /// Retorna `true` se [brCode] tem estrutura, CRC e identificador do Pix
   /// válidos.
   static bool isValid(String? brCode) => _camposValidados(brCode) != null;
+
+  static Map<String, String> _camposOuErro(String brCode) {
+    final campos = _camposValidados(brCode);
+    if (campos == null) {
+      throw ArgumentError.value(brCode, 'brCode', 'BR Code inválido!');
+    }
+    return campos;
+  }
+
+  /// Retorna a chave Pix do recebedor, ou `null` em QR Code dinâmico, que
+  /// traz uma URL no lugar da chave.
+  ///
+  /// Lança [ArgumentError] se o BR Code for inválido.
+  static String? obterChave(String brCode) =>
+      _contaPix(_camposOuErro(brCode))!['01'];
+
+  /// Retorna a URL do QR Code dinâmico, ou `null` no estático.
+  ///
+  /// Lança [ArgumentError] se o BR Code for inválido.
+  static String? obterUrl(String brCode) =>
+      _contaPix(_camposOuErro(brCode))!['25'];
+
+  /// Retorna o valor em reais, ou `null` quando o pagador escolhe o valor.
+  ///
+  /// Lança [ArgumentError] se o BR Code for inválido.
+  static double? obterValor(String brCode) {
+    final valor = _camposOuErro(brCode)['54'];
+    return valor == null ? null : double.tryParse(valor);
+  }
+
+  /// Retorna o nome do recebedor.
+  ///
+  /// Lança [ArgumentError] se o BR Code for inválido.
+  static String? obterNomeRecebedor(String brCode) =>
+      _camposOuErro(brCode)['59'];
+
+  /// Retorna a cidade do recebedor.
+  ///
+  /// Lança [ArgumentError] se o BR Code for inválido.
+  static String? obterCidade(String brCode) => _camposOuErro(brCode)['60'];
+
+  /// Retorna o identificador da transação (txid). `***` indica que não foi
+  /// informado.
+  ///
+  /// Lança [ArgumentError] se o BR Code for inválido.
+  static String? obterTxid(String brCode) {
+    final adicionais = _camposOuErro(brCode)['62'];
+    return adicionais == null ? null : _campos(adicionais)?['05'];
+  }
 }

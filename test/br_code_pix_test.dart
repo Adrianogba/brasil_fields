@@ -58,4 +58,53 @@ void main() {
     expect(BrCodePixValidator.isValid(estatico.substring(10)), isFalse);
     expect(BrCodePixValidator.isValid('qualquer texto'), isFalse);
   });
+
+  group('extração dos campos', () {
+    // Derivado do exemplo estático do manual, com valor e txid, e o CRC
+    // recalculado.
+    const comValor = '00020126580014br.gov.bcb.pix'
+        '0136123e4567-e12b-12d1-a456-426655440000'
+        '520400005303986540510.005802BR5913Fulano de Tal6008BRASILIA'
+        '62130509PEDIDO1236304902A';
+
+    test('QR Code estático traz a chave e não a URL', () {
+      expect(
+        BrCodePixValidator.obterChave(estatico),
+        '123e4567-e12b-12d1-a456-426655440000',
+      );
+      expect(BrCodePixValidator.obterUrl(estatico), isNull);
+    });
+
+    test('QR Code dinâmico traz a URL e não a chave', () {
+      expect(BrCodePixValidator.obterChave(dinamico), isNull);
+      expect(
+        BrCodePixValidator.obterUrl(dinamico),
+        'pix.example.com/8b3da2f39a4140d1a91abd93113bd441',
+      );
+    });
+
+    test('valor, recebedor, cidade e txid', () {
+      expect(BrCodePixValidator.isValid(comValor), isTrue);
+      expect(BrCodePixValidator.obterValor(comValor), 10.0);
+      expect(BrCodePixValidator.obterNomeRecebedor(comValor), 'Fulano de Tal');
+      expect(BrCodePixValidator.obterCidade(comValor), 'BRASILIA');
+      expect(BrCodePixValidator.obterTxid(comValor), 'PEDIDO123');
+    });
+
+    test('sem valor fixo, o pagador escolhe', () {
+      expect(BrCodePixValidator.obterValor(estatico), isNull);
+      expect(BrCodePixValidator.obterTxid(estatico), '***');
+    });
+
+    test('recusa BR Code inválido', () {
+      expect(
+        () => BrCodePixValidator.obterChave('qualquer texto'),
+        throwsArgumentError,
+      );
+      expect(
+        () => BrCodePixValidator.obterValor(estatico.substring(1)),
+        throwsArgumentError,
+      );
+    });
+  });
 }
