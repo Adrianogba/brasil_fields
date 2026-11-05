@@ -1,6 +1,7 @@
 library;
 
 export 'src/formatters/altura_input_formatter.dart';
+export 'src/formatters/boleto_input_formatter.dart';
 export 'src/formatters/cartao_bancario_input_formatter.dart';
 export 'src/formatters/celular_input_formatter.dart';
 export 'src/formatters/centavos_input_formatter.dart';
