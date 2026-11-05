@@ -392,6 +392,54 @@ void main() {
     }, throwsArgumentError);
   });
 
+  group('Segmentos da chave de acesso', () {
+    const nfe = '35150300822602000124550010009923461099234656';
+    const nfce = '41170410422724000187650010000005101000010235';
+
+    test('extrai os campos de uma NF-e de SP', () {
+      expect(UtilBrasilFields.obterChaveNFeUf(nfe), '35');
+      expect(UtilBrasilFields.obterChaveNFeAnoMes(nfe), '1503');
+      expect(UtilBrasilFields.obterChaveNFeCnpj(nfe), '00822602000124');
+      expect(
+        UtilBrasilFields.obterChaveNFeCnpj(nfe, useFormat: true),
+        '00.822.602/0001-24',
+      );
+      expect(UtilBrasilFields.obterChaveNFeModelo(nfe), '55');
+      expect(UtilBrasilFields.obterChaveNFeSerie(nfe), '001');
+      expect(UtilBrasilFields.obterChaveNFeNumero(nfe), '000992346');
+    });
+
+    test('extrai os campos de uma NFC-e do PR', () {
+      expect(UtilBrasilFields.obterChaveNFeUf(nfce), '41');
+      expect(UtilBrasilFields.obterChaveNFeAnoMes(nfce), '1704');
+      expect(UtilBrasilFields.obterChaveNFeModelo(nfce), '65');
+      expect(UtilBrasilFields.obterChaveNFeNumero(nfce), '000000510');
+    });
+
+    test('o CNPJ extraído é um CNPJ válido', () {
+      for (final chave in <String>[nfe, nfce]) {
+        expect(
+          UtilBrasilFields.isCNPJValido(
+            UtilBrasilFields.obterChaveNFeCnpj(chave),
+          ),
+          isTrue,
+          reason: chave,
+        );
+      }
+    });
+
+    test('aceita a chave formatada e recusa a inválida', () {
+      final formatada = UtilBrasilFields.obterChaveNFe(nfe);
+
+      expect(UtilBrasilFields.obterChaveNFeUf(formatada), '35');
+      expect(() {
+        UtilBrasilFields.obterChaveNFeUf(
+          '35150300822602000124550010009923461099234650',
+        );
+      }, throwsArgumentError);
+    });
+  });
+
   group('Obter Real', () {
     test('com moeda (R\$)', () {
       const real = 85437107.04;

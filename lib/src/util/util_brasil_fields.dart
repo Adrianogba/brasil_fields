@@ -233,6 +233,47 @@ class UtilBrasilFields {
     return ChaveNFeValidator.format(chave);
   }
 
+  // Só os campos até o número: as posições seguintes mudaram entre as
+  // versões do layout.
+
+  /// Retorna o código IBGE da UF do emitente.
+  static String obterChaveNFeUf(String chave) =>
+      _segmentoDaChaveNFe(chave, 0, 2);
+
+  /// Retorna o ano e o mês de emissão (`AAMM`).
+  static String obterChaveNFeAnoMes(String chave) =>
+      _segmentoDaChaveNFe(chave, 2, 6);
+
+  /// Retorna o CNPJ do emitente.
+  ///
+  /// Com [useFormat] igual a `true`, retorna `XX.XXX.XXX/XXXX-XX`.
+  static String obterChaveNFeCnpj(String chave, {bool useFormat = false}) {
+    final cnpj = _segmentoDaChaveNFe(chave, 6, 20);
+
+    return useFormat ? CNPJValidator.format(cnpj) : cnpj;
+  }
+
+  /// Retorna o modelo do documento.
+  ///
+  /// `55` para NF-e, `65` para NFC-e, `57` para CT-e e `58` para MDF-e.
+  static String obterChaveNFeModelo(String chave) =>
+      _segmentoDaChaveNFe(chave, 20, 22);
+
+  /// Retorna a série do documento.
+  static String obterChaveNFeSerie(String chave) =>
+      _segmentoDaChaveNFe(chave, 22, 25);
+
+  /// Retorna o número do documento.
+  static String obterChaveNFeNumero(String chave) =>
+      _segmentoDaChaveNFe(chave, 25, 34);
+
+  static String _segmentoDaChaveNFe(String chave, int inicio, int fim) {
+    if (!isChaveNFeValida(chave)) {
+      throw ArgumentError.value(chave, 'chave', 'Chave de acesso inválida!');
+    }
+    return ChaveNFeValidator.strip(chave).substring(inicio, fim);
+  }
+
   /// Formata um PIS/PASEP válido como `XXX.XXXXX.XX-X`.
   static String obterPisPasep(String pis) {
     if (!isPisPasepValido(pis)) {
