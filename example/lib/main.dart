@@ -917,6 +917,9 @@ class _FormatterDemo {
     if (value is TemperaturaInputFormatter) {
       return 'TemperaturaInputFormatter';
     }
+    if (value is TituloEleitorInputFormatter) {
+      return 'TituloEleitorInputFormatter';
+    }
     if (value is ValidadeCartaoInputFormatter) {
       return 'ValidadeCartaoInputFormatter';
     }
@@ -959,6 +962,8 @@ List<_FormatterDemo> _createFormatterDemos() => [
           '0601064-21.2022.6.00.0000', NUPInputFormatter()),
       _demo('cnh', 'Documentos e identificadores', 'CNH', '18718682003',
           CNHInputFormatter()),
+      _demo('titulo-eleitor', 'Documentos e identificadores',
+          'Título de eleitor', '4720 5468 0167', TituloEleitorInputFormatter()),
       _demo('cns', 'Documentos e identificadores', 'CNS', '000 1111 2222 3333',
           CNSInputFormatter()),
       _demo('telefone-fixo', 'Novidades recentes', 'Telefone fixo',

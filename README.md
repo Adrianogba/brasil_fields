@@ -74,6 +74,7 @@ final cnpjField = TextFormField(
 | Telefone ou celular | TelefoneOuCelularInputFormatter() | Máscara conforme a quantidade de dígitos |
 | Validade cartão  | ValidadeCartaoInputFormatter()  | 12/24 ou 12/2024                             |
 | Temperatura      | TemperaturaInputFormatter()     | 27,1                                         |
+| Título de eleitor | TituloEleitorInputFormatter()  | 4720 5468 0167                               |
 
 Os formatadores aplicam máscaras; não substituem validadores. Para verificar CPF, CNPJ, NUP ou PIS/PASEP, use os validadores em `UtilBrasilFields`.
 
@@ -137,6 +138,8 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.gerarCNPJ(isAlphanumeric: true, useFormat: true)` (CNPJ alfanumérico formatado)
 - `UtilBrasilFields.gerarPisPasep()` (XXXXXXXXXXX)
 - `UtilBrasilFields.gerarPisPasep(useFormat: true)` (XXX.XXXXX.XX-X)
+- `UtilBrasilFields.gerarTituloEleitor()` (XXXXXXXXXXXX)
+- `UtilBrasilFields.gerarTituloEleitor(useFormat: true)` (XXXX XXXX XXXX)
 - `UtilBrasilFields.obterCpf('48620265083')` (486.202.650-83)
 - `UtilBrasilFields.obterCnpj('77343168000124')` (77.343.168/0001-24)
 - `UtilBrasilFields.obterCnpj('E2X05ZR982XN04')` (E2.X05.ZR9/82XN-04)
@@ -145,6 +148,8 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.obterCep('11222333', ponto: false)` (11222-333)
 - `UtilBrasilFields.obterNUP('06010642120226000000')` (0601064-21.2022.6.00.0000)
 - `UtilBrasilFields.obterPisPasep('12012345672')` (120.12345.67-2)
+- `UtilBrasilFields.obterTituloEleitor('472054680167')` (4720 5468 0167)
+- `UtilBrasilFields.obterTituloEleitorUf('472054680167')` (SP; `ZZ` para título emitido no exterior)
 - `UtilBrasilFields.obterTelefone('00999998877')` ((00) 99999-8877)
 - `UtilBrasilFields.obterTelefone('(00) 99999-8877', mascara: false)` (00999998877)
 - `UtilBrasilFields.obterTelefone('999998877', ddd: false)` (99999-8877)
@@ -157,9 +162,9 @@ Gera, formata e valida identificadores e valores brasileiros:
 - `UtilBrasilFields.removeCaracteres` mantém apenas letras ASCII e dígitos.
 - `UtilBrasilFields.removerSimboloMoeda` remove `R$` e o espaço seguinte, se houver.
 - `UtilBrasilFields.converterMoedaParaDouble` converte um valor monetário brasileiro em `double`; retorna `0` se a entrada não vazia não puder ser convertida.
-- `UtilBrasilFields.isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido` e `isPisPasepValido` retornam `bool`. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
+- `UtilBrasilFields.isCNHValido`, `isCPFValido`, `isCNPJValido`, `isNUPValido`, `isPisPasepValido` e `isTituloEleitorValido` retornam `bool`. Para CNPJ alfanumérico, passe `isAlphanumeric: true` a `isCNPJValido`.
 
-Os métodos `obterCpf`, `obterCnpj`, `obterNUP` e `obterPisPasep` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
+Os métodos `obterCpf`, `obterCnpj`, `obterNUP`, `obterPisPasep`, `obterTituloEleitor` e `obterTituloEleitorUf` exigem identificadores válidos e lançam `ArgumentError` para valores inválidos.
 
 ### TextEditingController
 

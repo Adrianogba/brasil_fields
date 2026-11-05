@@ -182,6 +182,35 @@ void main() {
     expect(editable.controller.text, '18718682003');
   });
 
+  testWidgets('shows and formats the título de eleitor formatter',
+      (tester) async {
+    await tester.pumpWidget(const BrasilFieldsApp());
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const Key('formatter-search')),
+      'Título',
+    );
+    await tester.pumpAndSettle();
+    await tester.drag(
+      find.byKey(const PageStorageKey('formatters-page')),
+      const Offset(0, -500),
+    );
+    await tester.pumpAndSettle();
+
+    final field = find.byKey(const Key('formatter-titulo-eleitor'));
+    expect(field, findsOneWidget);
+    expect(find.text('TituloEleitorInputFormatter'), findsOneWidget);
+
+    await tester.enterText(field, '472054680167');
+    await tester.pump();
+
+    final editable = tester.widget<EditableText>(
+      find.descendant(of: field, matching: find.byType(EditableText)),
+    );
+    expect(editable.controller.text, '4720 5468 0167');
+  });
+
   testWidgets('narrow layout renders without overflow', (tester) async {
     tester.view.physicalSize = const Size(320, 568);
     tester.view.devicePixelRatio = 1;
