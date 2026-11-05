@@ -28,6 +28,7 @@ export 'src/formatters/telefone_input_formatter.dart';
 export 'src/formatters/telefone_fixo_input_formatter.dart';
 export 'src/formatters/telefone_ou_celular_input_formatter.dart';
 export 'src/formatters/temperatura_input_formatter.dart';
+export 'src/formatters/titulo_eleitor_input_formatter.dart';
 export 'src/formatters/validade_cartao_input_formatter.dart';
 export 'src/modelos/estados.dart';
 export 'src/modelos/meses.dart';
