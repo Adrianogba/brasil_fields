@@ -24,6 +24,7 @@ export 'src/formatters/peso_input_formatter.dart';
 export 'src/formatters/pis_pasep_input_formatter.dart';
 export 'src/formatters/placa_veiculo_formatter.dart';
 export 'src/formatters/real_input_formatter.dart';
+export 'src/formatters/renavam_input_formatter.dart';
 export 'src/formatters/telefone_input_formatter.dart';
 export 'src/formatters/telefone_fixo_input_formatter.dart';
 export 'src/formatters/telefone_ou_celular_input_formatter.dart';
