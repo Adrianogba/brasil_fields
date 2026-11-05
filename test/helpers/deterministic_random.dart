@@ -33,6 +33,23 @@ class RecordingRandom implements Random {
   }
 }
 
+/// Calcula o dígito verificador da chave de acesso.
+String chaveNFeWithIndependentCheckDigit(String body) {
+  const weights = <int>[2, 3, 4, 5, 6, 7, 8, 9];
+
+  var sum = 0;
+  var weightIndex = 0;
+  for (var index = body.length - 1; index >= 0; index--) {
+    sum += int.parse(body[index]) * weights[weightIndex];
+    weightIndex = (weightIndex + 1) % weights.length;
+  }
+
+  final remainder = sum % 11;
+  final digit = remainder < 2 ? 0 : 11 - remainder;
+
+  return '$body$digit';
+}
+
 /// Calcula os dígitos verificadores da CNH a partir de uma base de 9 dígitos.
 ///
 /// Retorna `null` para bases que não admitem número de registro válido.
